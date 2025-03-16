@@ -36,39 +36,39 @@ function updateCarousel() {
     document.querySelector('.carousel-item.right').style.backgroundImage = `url(${images[rightIndex]})`;
 }
 
-let startY = 0;
+let startX = 0;
 let threshold = 50; // Minimum swipe distance to trigger the action
 let minMove = 10;   // Minimum move to consider it as a swipe
 let isSwiping = false; // Prevent multiple swipes at once
 
 document.querySelector('.carousel').addEventListener('touchstart', (e) => {
-  startY = e.touches[0].clientY;
+  startX = e.touches[0].clientX;
   isSwiping = false; // Reset flag when starting touch
 });
 
 document.querySelector('.carousel').addEventListener('touchmove', (e) => {
-  const moveY = e.touches[0].clientY - startY;
+  const moveX = e.touches[0].clientX - startX;
 
   // Check if the user moved enough to consider it a swipe
-  if (Math.abs(moveY) > minMove) {
+  if (Math.abs(moveX) > minMove) {
     isSwiping = true;
   }
 
   // If the swipe distance exceeds the threshold, perform the action
   if (isSwiping) {
-    if (moveY > threshold) {
-      // Swipe down
+    if (moveX > threshold) {
+      // Swipe right
       currentIndex = (currentIndex - 1 + images.length) % images.length;
       updateCarousel();
-      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
       isSwiping = false; // Reset flag after action
     }
 
-    if (moveY < -threshold) {
-      // Swipe up
+    if (moveX < -threshold) {
+      // Swipe left
       currentIndex = (currentIndex + 1) % images.length;
       updateCarousel();
-      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
       isSwiping = false; // Reset flag after action
     }
   }
