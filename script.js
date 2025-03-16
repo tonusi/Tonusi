@@ -38,15 +38,20 @@ function updateCarousel() {
 
 let startX = 0;
 let threshold = 50; // Minimum swipe distance to trigger the action
-let minMove = 10;   // Minimum move to consider it as a swipe
+let minMove = 10;   // Minimum move to consider it a swipe
 let isSwiping = false; // Prevent multiple swipes at once
+let isMoving = false; // Prevent new swipe until the transition is complete
 
 document.querySelector('.carousel').addEventListener('touchstart', (e) => {
+  if (isMoving) return; // Don't start a new swipe if a transition is in progress
+  
   startX = e.touches[0].clientX;
   isSwiping = false; // Reset flag when starting touch
 });
 
 document.querySelector('.carousel').addEventListener('touchmove', (e) => {
+  if (isMoving) return; // Prevent swiping during transition
+  
   const moveX = e.touches[0].clientX - startX;
 
   // Check if the user moved enough to consider it a swipe
@@ -62,6 +67,11 @@ document.querySelector('.carousel').addEventListener('touchmove', (e) => {
       updateCarousel();
       startX = e.touches[0].clientX;
       isSwiping = false; // Reset flag after action
+      isMoving = true;   // Mark as in transition
+
+      setTimeout(() => {
+        isMoving = false; // Reset flag after transition (adjust timing based on animation duration)
+      }, 300); // Assuming transition takes 300ms, adjust as needed
     }
 
     if (moveX < -threshold) {
@@ -70,6 +80,11 @@ document.querySelector('.carousel').addEventListener('touchmove', (e) => {
       updateCarousel();
       startX = e.touches[0].clientX;
       isSwiping = false; // Reset flag after action
+      isMoving = true;   // Mark as in transition
+
+      setTimeout(() => {
+        isMoving = false; // Reset flag after transition
+      }, 300); // Adjust timing based on transition duration
     }
   }
 });
