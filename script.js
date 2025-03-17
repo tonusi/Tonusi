@@ -71,18 +71,23 @@ carousel.addEventListener('touchmove', (e) => {
   isMoving = true; // Block additional swipes until touchend
 });
 
-// Fullscreen Swipe Handling
+// FULLSCREEN PARAMETERS
+let isZooming = false;
+let initialDistance = 0;
+
+// Detecting pinch zoom
 fullscreen.addEventListener('touchstart', (e) => {
-  if (isMoving) return;
+  if (e.touches.length === 2) {
+    // Two fingers touched, likely zooming
+    initialDistance = Math.abs(e.touches[0].clientX - e.touches[1].clientX);
+    isZooming = true;
+  }
+  if (isMoving || isZooming) return;
   startX = e.touches[0].clientX;
 });
 
-fullscreen.addEventListener('touchend', () => {
-  isMoving = false; // Allow new swipes after touch ends
-});
-
 fullscreen.addEventListener('touchmove', (e) => {
-  if (isMoving) return;
+  if (isMoving || isZooming) return;
 
   const moveX = e.touches[0].clientX - startX;
   if (Math.abs(moveX) < threshold) return;
@@ -98,6 +103,24 @@ fullscreen.addEventListener('touchmove', (e) => {
   updateCarousel();
   fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
   isMoving = true;
+});
+
+fullscreen.addEventListener('touchend', (e) => {
+  isMoving = false; // Allow new swipes after touch ends
+  if (e.touches.length < 2) {
+    // If no more than one touch, reset zoom state
+    isZooming = false;
+  }
+});
+
+// Check for zoom (pinch gesture)
+fullscreen.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 2) {
+    const currentDistance = Math.abs(e.touches[0].clientX - e.touches[1].clientX);
+    if (Math.abs(currentDistance - initialDistance) > threshold) {
+      isZooming = true; // Detect zoom
+    }
+  }
 });
 
 // Show Full Screen on Click
