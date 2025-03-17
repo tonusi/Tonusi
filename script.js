@@ -37,79 +37,67 @@ function updateCarousel() {
 }
 
 let startX = 0;
-let threshold = 50; // Minimum swipe distance to trigger the action
-let minMove = 10;   // Minimum move to consider it a swipe
-let isSwiping = false; // Prevent multiple swipes at once
-let isMoving = false; // Prevent new swipe until the transition is complete
+let threshold = 50; // Minimum swipe distance to trigger action
+let isMoving = false; // Prevents new swipe until transition is complete
 
-document.querySelector('.carousel').addEventListener('touchstart', (e) => {
-  if (isMoving) return; // Don't start a new swipe if a transition is in progress
-  
+const carousel = document.querySelector('.carousel');
+
+carousel.addEventListener('touchstart', (e) => {
+  if (isMoving) return; // Block swipe if transition is in progress
   startX = e.touches[0].clientX;
-  isSwiping = false; // Reset flag when starting touch
 });
 
-document.querySelector('.carousel').addEventListener('touchmove', (e) => {
-  if (isMoving) return; // Prevent swiping during transition
-  
+carousel.addEventListener('touchend', () => {
+  isMoving = false; // Allow new swipes after touch ends
+});
+
+carousel.addEventListener('touchmove', (e) => {
+  if (isMoving) return; // Prevent swiping if already transitioning
+
   const moveX = e.touches[0].clientX - startX;
+  if (Math.abs(moveX) < threshold) return; // Ignore small movements
 
-  // Check if the user moved enough to consider it a swipe
-  if (Math.abs(moveX) > minMove) {
-    isSwiping = true;
+  // Detect swipe direction
+  if (moveX > 0) {
+    // Swipe Right
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+  } else {
+    // Swipe Left
+    currentIndex = (currentIndex + 1) % images.length;
   }
 
-  // If the swipe distance exceeds the threshold, perform the action
-  if (isSwiping) {
-    if (moveX > threshold) {
-      // Swipe right
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      updateCarousel();
-      startX = e.touches[0].clientX;
-      isSwiping = false; // Reset flag after action
-      isMoving = true;   // Mark as in transition
-
-      setTimeout(() => {
-        isMoving = false; // Reset flag after transition (adjust timing based on animation duration)
-      }, 300); // Assuming transition takes 300ms, adjust as needed
-    }
-
-    if (moveX < -threshold) {
-      // Swipe left
-      currentIndex = (currentIndex + 1) % images.length;
-      updateCarousel();
-      startX = e.touches[0].clientX;
-      isSwiping = false; // Reset flag after action
-      isMoving = true;   // Mark as in transition
-
-      setTimeout(() => {
-        isMoving = false; // Reset flag after transition
-      }, 300); // Adjust timing based on transition duration
-    }
-  }
+  updateCarousel();
+  startX = e.touches[0].clientX;
+  isMoving = true; // Block additional swipes until touchend
 });
 
-// For Swipe on Mobile in Fullscreen
+// Fullscreen Swipe Handling
 fullscreen.addEventListener('touchstart', (e) => {
-    fullscreenStartX = e.touches[0].clientX;
+  if (isMoving) return;
+  startX = e.touches[0].clientX;
+});
+
+fullscreen.addEventListener('touchend', () => {
+  isMoving = false; // Allow new swipes after touch ends
 });
 
 fullscreen.addEventListener('touchmove', (e) => {
-    const moveX = e.touches[0].clientX - fullscreenStartX;
+  if (isMoving) return;
 
-    if (moveX > 50) {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        updateCarousel();
-        fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
-        fullscreenStartX = e.touches[0].clientX;
-    }
+  const moveX = e.touches[0].clientX - startX;
+  if (Math.abs(moveX) < threshold) return;
 
-    if (moveX < -50) {
-        currentIndex = (currentIndex + 1) % images.length;
-        updateCarousel();
-        fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
-        fullscreenStartX = e.touches[0].clientX;
-    }
+  if (moveX > 0) {
+    // Swipe Right
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+  } else {
+    // Swipe Left
+    currentIndex = (currentIndex + 1) % images.length;
+  }
+
+  updateCarousel();
+  fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
+  isMoving = true;
 });
 
 // Show Full Screen on Click

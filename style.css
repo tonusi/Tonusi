@@ -108,6 +108,7 @@ header {
 .fullscreen.active {
     display: block;
     --background-color: var(--green-color);
+    /* backdrop-filter: blur(10px); */
 }
 
 /* LOADING SCREEN */
