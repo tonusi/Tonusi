@@ -128,6 +128,7 @@ header {
 }
 .previous {
     position: fixed;
+    top: 50%;
     left: 5%;
     width: 50px;
     height: 50px;
@@ -138,6 +139,7 @@ header {
 }
 .next {
     position: fixed;
+    top: 50%;
     right: 5%;
     width: 50px;
     height: 50px;
