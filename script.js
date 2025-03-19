@@ -12,7 +12,6 @@ window.onload = () => {
     }, 1000);
 };
 
-
 const images = [
     'images/1.jpg',
     'images/2.jpg',
@@ -24,6 +23,8 @@ let currentIndex = 1;
 
 // Add full-screen div to the page
 const fullscreen = document.createElement('div');
+let navigation = document.querySelector('.navigation');
+console.log(navigation.className);
 fullscreen.className = 'fullscreen';
 document.body.appendChild(fullscreen);
 
@@ -35,6 +36,9 @@ function updateCarousel() {
     document.querySelector('.carousel-item.center').style.backgroundImage = `url(${images[currentIndex]})`;
     document.querySelector('.carousel-item.right').style.backgroundImage = `url(${images[rightIndex]})`;
 }
+
+
+// FULLSCREEN SWIPING
 
 let startX = 0;
 let threshold = 50; // Minimum swipe distance to trigger action
@@ -72,39 +76,33 @@ carousel.addEventListener('touchmove', (e) => {
 });
 
 // Fullscreen Swipe Handling
-fullscreen.addEventListener('touchstart', (e) => {
-  if (isMoving || e.touches.length > 1) return; // Ensure only one finger is used
-  startX = e.touches[0].clientX;
-});
+function Previous() 
+{
 
-fullscreen.addEventListener('touchend', (e) => {
-  isMoving = false; // Allow new swipes after touch ends
-});
-
-fullscreen.addEventListener('touchmove', (e) => {
-  if (isMoving || e.touches.length > 1) return; // Ensure only one finger is used
-
-  const moveX = e.touches[0].clientX - startX;
-  if (Math.abs(moveX) < threshold) return;
-
-  if (moveX > 0) {
-    // Swipe Right
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-  } else {
-    // Swipe Left
-    currentIndex = (currentIndex + 1) % images.length;
-  }
-
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
   updateCarousel();
   fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
-  isMoving = true;
-});
+
+}
+function Next() 
+{
+
+  currentIndex = (currentIndex + 1 + images.length) % images.length;
+  updateCarousel();
+  fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
+
+}
+document.querySelector(".previous").addEventListener("click", Previous);
+document.querySelector(".next").addEventListener("click", Next);
+
+// TURN ON/OFF FULLSCREEN
 
 // Show Full Screen on Click
 document.querySelectorAll('.carousel-item').forEach(item => {
     item.addEventListener('click', () => {
         fullscreen.style.backgroundImage = item.style.backgroundImage;
         fullscreen.classList.add('active');
+        navigation.classList.add('active');
     });
 });
 
@@ -112,6 +110,7 @@ document.querySelectorAll('.carousel-item').forEach(item => {
 // Close Full Screen on Click
 fullscreen.addEventListener('click', () => {
     fullscreen.classList.remove('active');
+    navigation.remove('active');
 });
 
 updateCarousel();
