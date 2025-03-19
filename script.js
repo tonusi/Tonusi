@@ -39,7 +39,6 @@ function updateCarousel() {
 
 
 // FULLSCREEN SWIPING
-
 let startX = 0;
 let threshold = 50; // Minimum swipe distance to trigger action
 let isMoving = false; // Prevents new swipe until transition is complete
@@ -75,7 +74,8 @@ carousel.addEventListener('touchmove', (e) => {
   isMoving = true; // Block additional swipes until touchend
 });
 
-// Fullscreen Swipe Handling
+
+// FULLSCREEEN IMAGE CHANGE
 function Previous() 
 {
 
@@ -95,6 +95,7 @@ function Next()
 document.querySelector(".previous").addEventListener("click", Previous);
 document.querySelector(".next").addEventListener("click", Next);
 
+
 // TURN ON/OFF FULLSCREEN
 
 // Show Full Screen on Click
@@ -105,12 +106,10 @@ document.querySelectorAll('.carousel-item').forEach(item => {
         navigation.classList.add('active');
     });
 });
-
-
 // Close Full Screen on Click
 fullscreen.addEventListener('click', () => {
     fullscreen.classList.remove('active');
-    navigation.remove('active');
+    navigation.classList.remove('active');
 });
 
 updateCarousel();
