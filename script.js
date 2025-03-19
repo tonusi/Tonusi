@@ -23,10 +23,13 @@ let currentIndex = 1;
 
 // Add full-screen div to the page
 const fullscreen = document.createElement('div');
+const fullscreen_image = document.createElement('div');
 let navigation = document.querySelector('.navigation');
-console.log(navigation.className);
+
 fullscreen.className = 'fullscreen';
+fullscreen_image.className = 'fullscreen_image';
 document.body.appendChild(fullscreen);
+fullscreen.appendChild(fullscreen_image);
 
 function updateCarousel() {
     const leftIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
@@ -81,7 +84,7 @@ function Previous()
 
   currentIndex = (currentIndex - 1 + images.length) % images.length;
   updateCarousel();
-  fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
+  fullscreen_image.style.backgroundImage = `url(${images[currentIndex]})`;
 
 }
 function Next() 
@@ -89,7 +92,7 @@ function Next()
 
   currentIndex = (currentIndex + 1 + images.length) % images.length;
   updateCarousel();
-  fullscreen.style.backgroundImage = `url(${images[currentIndex]})`;
+  fullscreen_image.style.backgroundImage = `url(${images[currentIndex]})`;
 
 }
 document.querySelector(".previous").addEventListener("click", Previous);
@@ -101,7 +104,7 @@ document.querySelector(".next").addEventListener("click", Next);
 // Show Full Screen on Click
 document.querySelectorAll('.carousel-item').forEach(item => {
     item.addEventListener('click', () => {
-        fullscreen.style.backgroundImage = item.style.backgroundImage;
+        fullscreen_image.style.backgroundImage = item.style.backgroundImage;
         fullscreen.classList.add('active');
         navigation.classList.add('active');
     });
