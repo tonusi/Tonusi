@@ -110,11 +110,11 @@ header {
 }
 
 .navigation {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: none;
     z-index: 1000;
     justify-content: space-between;
@@ -127,6 +127,8 @@ header {
     display: flex;
 }
 .previous {
+    position: fixed;
+    left: 5%;
     width: 50px;
     height: 50px;
     color: white;
@@ -135,6 +137,8 @@ header {
     pointer-events: auto;
 }
 .next {
+    position: fixed;
+    right: 5%;
     width: 50px;
     height: 50px;
     color: white;
