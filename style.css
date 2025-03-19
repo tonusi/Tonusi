@@ -2,8 +2,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    background-color: var(--background-color);
+    background-color: none;
 }
 
 :root {
@@ -11,39 +10,63 @@
     --green-color: #13888D;
 }
 
+html,
 body {
     font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+}
+
+section {
+    height: 100%;
+    overflow-y: auto;
 }
 
 header {
-    color: white;
-    text-align: center;
-    padding: 60px 20px;
     position: relative;
+    width: 100%;
+    height: 100px;
+    padding: 30px 0;
+    text-align: center;
+    color: white;
+    background-color: var(--green-color);
+    border-radius: 0 0 100% 100%;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    padding: 30px 0;
+    text-align: center;
+    overflow: hidden;
+    color: white;
+    background-color: var(--green-color);
+    border-radius: 100% 100% 0 0;
     z-index: 1;
-    margin-top: -5%;
+}
+.contacts li {
+
+    margin-bottom: 10px;
+
+}
+.contacts {
+
+    display: inline-block;
+    text-align: left;
+    list-style: none;
+    width: 75%;
+
 }
 
 .main-title,
 .second-title {
+    position: relative;
     font-size: 24px;
-    background-color: var(--green-color);
+    z-index: 1;
 }
-
 .second-title {
     padding-left: 20px;
-}
-
-.circle {
-    position: fixed;
-    background-color: var(--green-color);
-    top: -20%;
-    left: -50%;
-    width: 200%;
-    height: 40%;
-    border-radius: 50%;
-    z-index: -1;
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Carousel */
@@ -103,11 +126,14 @@ header {
     background-repeat: no-repeat;
     z-index: 999;
     display: none;
+    background-color: var(--green-color);
 }
+
 .fullscreen.active {
     display: block;
     --background-color: var(--green-color);
 }
+
 .fullscreen_image {
 
     position: absolute;
@@ -134,9 +160,11 @@ header {
     display: none;
     pointer-events: none;
 }
+
 .navigation.active {
     display: flex;
 }
+
 .previous {
     position: fixed;
     top: 50%;
@@ -149,6 +177,7 @@ header {
     border-width: 0;
     pointer-events: auto;
 }
+
 .next {
     position: fixed;
     top: 50%;
