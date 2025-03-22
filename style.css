@@ -63,8 +63,8 @@ footer {
 }
 
 .carousel-item {
-    width: 360px;
-    height: 480px;
+    width: 120px;
+    height: 160px;
     border-radius: 15px;
     background-size: cover;
     background-position: center;
