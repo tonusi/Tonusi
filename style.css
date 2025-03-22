@@ -52,8 +52,8 @@ header {
 }
 
 .carousel-item {
-    width: 120px;
-    height: 160px;
+    width: 360px;
+    height: 480px;
     border-radius: 15px;
     background-size: cover;
     background-position: center;
