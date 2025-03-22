@@ -83,8 +83,8 @@ footer {
 }
 
 .carousel-item.center {
-    width: 460px;
-    height: 560px;
+    width: 230px;
+    height: 280px;
     opacity: 1;
     transform: scale(1);
     z-index: 1;
