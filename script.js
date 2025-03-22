@@ -120,3 +120,9 @@ updateCarousel();
 function openMap(lat, lng) {
   window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
 }
+
+window.addEventListener("load", function() {
+  setTimeout(function() {
+    window.scrollTo(0, 1); // Scroll slightly to hide address bar
+  }, 100);
+});
